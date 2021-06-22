@@ -8,7 +8,7 @@ class GeneralOperations(GeneralOperationsInterface):
         for line in file:
             if line and (':' in line):
                 try:
-                    list_string.append(line.split(':')[0])
+                    list_string.append(line.split(':')[0]) #ToDo узнать как делать сплит только по первому значению
                 except:
                     pass
         file.close()

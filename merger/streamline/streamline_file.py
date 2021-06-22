@@ -8,7 +8,7 @@ class StreamlineFile(GeneralOperations):
         general_file = open(general_path, 'r')
         additional_file = open(add_path, 'w')
 
-        #ToDo добавить ошибку на несовпадение кол-ва переменных
+        #ToDo добавить предупреждение о несовпадению кол-ва переменных
         for line in general_file:
             try:
                 if 'l_english:' in line:

@@ -1,8 +1,10 @@
-from mtranslate import translate
+from translator.translator import Translator
 from merger.general.general_operations import GeneralOperations
 
 class AddFileInRussian(GeneralOperations):
 
+    def __init__(self):
+        self.translator = Translator()
 
     def execute_operation(self, path_general_file, path_additional_file):
 
@@ -25,8 +27,8 @@ class AddFileInRussian(GeneralOperations):
             elif line == '  \n':
                 pass
             elif line not in common_line:
-                eng = general_dict_string[line]
-                ru = translate(eng, 'ru', 'auto')
+                eng = general_dict_string[line].replace('"', '')
+                ru = '"' + self.translator.transleate_text(eng) + '"' #ToDo перенести перевод в отдельный класс, сделать отработку ошибки на случай, если у пользователя нет интернета
                 additional_file.write(line + ru+'\n')
                 if 'desc' in line:
                     additional_file.write('\n')

@@ -4,11 +4,11 @@ from common.errors import *
 from merger.add_file.add_file_in_english import AddFileInEnglish
 from merger.add_file.add_file_in_russian import AddFileInRussian
 from merger.translate.translate_file import TranslateFile
-from merger.translate.translate_directory import TransleateDirectory
 from merger.transfer.transfer_file import TransferFile
-from merger.transfer.transfer_directory import TransferDirectory
 from merger.streamline.streamline_file import StreamlineFile
 from merger.general.general_work_with_directory import GeneralWorkWithDirectory
+from merger.search_untrans_string.search_untrans_string import SearchUntransString
+from merger.search_update_string.search_update_string import SearchUpdateString
 
 def __check_input(general_path, add_path):
     if not general_path or not add_path:
@@ -39,8 +39,8 @@ while True:
             break
         elif event == 'Выполнить':
             mode = values['MODE']
-            general_file_path = '/home/mitry/Документы/localization_test/focus_BEX_l_english.yml' #values['GENERAL_PATH']
-            other_file_path = '/home/mitry/Документы/файлы для руссификации/focus_BEX_l_russian.yml' #values['ADDITIONAL_FILE']
+            general_file_path = values['GENERAL_PATH']
+            other_file_path = values['ADDITIONAL_FILE']
             if mode == COMMANDS.ADDITIONAL_ENGLISH:
                 __check_input(general_file_path, other_file_path)
                 merger = AddFileInEnglish()
@@ -70,6 +70,12 @@ while True:
             elif mode == COMMANDS.STREAMLINE_DIRECTORY:
                 merger = GeneralWorkWithDirectory(StreamlineFile)
                 merger.excution_operation_with_directory(general_file_path)
+            elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:
+                mode = SearchUpdateString()
+                merger.execute_operation(other_file_path)
+            elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
+                mode = SearchUntransString()
+                merger.execute_operation(other_file_path)
 
     except NotADirectoryError:
         print('Указанный путь не является папкой, укажите путь до папки')

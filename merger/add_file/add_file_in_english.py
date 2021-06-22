@@ -16,8 +16,8 @@ class AddFileInEnglish(GeneralOperations):
 
         for line in general_list_string:
             if 'l_english' in line:
-                additional_file.write('l_russian\n')
-            elif '\n' in line:
+                pass
+            if '\n' in line:
                 pass
             elif line == ' \n':
                 pass
@@ -33,6 +33,10 @@ class AddFileInEnglish(GeneralOperations):
                 additional_file.write('\n')
             elif line == '  \n':
                 additional_file.write('\n')
-            else:
+            elif ':' in line:
                 additional_file.write(line + additional_dict_string[line])
+                if 'desc' in line:
+                    additional_file.write('\n')
+            else:
+                additional_file.write(line)
         additional_file.close()

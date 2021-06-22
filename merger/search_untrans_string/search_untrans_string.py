@@ -1,5 +1,6 @@
 from merger.general.general_operations import GeneralOperations
 import re
+
 class SearchUntransString(GeneralOperations):
 
     def execute_operation(self, add_path):
@@ -19,6 +20,8 @@ class SearchUntransString(GeneralOperations):
 
             for key in work_file_dict:
                 add_file.write(work_file_dict[key])
+
+            add_file.close()
 
 
 

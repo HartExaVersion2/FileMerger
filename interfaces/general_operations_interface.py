@@ -13,3 +13,11 @@ class GeneralOperationsInterface(ABC):
     @abstractmethod
     def encod_utf8_bom(self, path_on_file: str):
         pass
+
+    @abstractmethod
+    def read_file(self, path_to_file: str):
+        pass
+
+    @abstractmethod
+    def write_in_file(self, path_to_file: str):
+        pass

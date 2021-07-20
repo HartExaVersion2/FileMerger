@@ -1,10 +1,11 @@
 from interfaces.general_operations_interface import GeneralOperationsInterface
 import shutil
+import codecs
 
 class GeneralOperations(GeneralOperationsInterface):
 
     def file_in_list(self, path_on_file) -> list:
-        file = open(path_on_file, 'r')
+        file = self.read_file(path_on_file)
         list_string = []
         for line in file:
             if line and (':' in line):
@@ -16,10 +17,10 @@ class GeneralOperations(GeneralOperationsInterface):
         return list_string
 
     def file_in_dict(self, path_on_file) -> dict:
-        file = open(path_on_file, 'r')
+        file = self.read_file(path_on_file)
         dict_string = {}
         for line in file:
-            if line and line!='\n':
+            if line and line != '\n':
                 try:
                     dict_string[line.split(':', 1)[0]] = ':' + line.split(':', 1)[1]
                 except:
@@ -28,6 +29,12 @@ class GeneralOperations(GeneralOperationsInterface):
         return dict_string
 
     def encod_utf8_bom(self, path_on_file: str):
-        with open(path_on_file, encoding="utf-8") as f_in, open(path_on_file + ".tmp", encoding="utf-8-sig", mode="w") as f_out:
+        with codecs.open(path_on_file, encoding="utf-8") as f_in, codecs.open(path_on_file + ".tmp", encoding="utf-8-sig", mode="w") as f_out:
             f_out.write(f_in.read())
             shutil.move(path_on_file + ".tmp", path_on_file)
+
+    def read_file(self, path_to_file: str):
+        return codecs.open(path_to_file, 'r', 'utf_8_sig')
+
+    def write_in_file(self, path_to_file: str):
+        return codecs.open(path_to_file, 'w', 'utf_8_sig')

@@ -41,9 +41,9 @@ while True:
             break
         elif event == 'Выполнить':
             mode = values['MODE']
-            general_file_path = '/home/mitry/Документы/мёрджер/ct_ideas_l_english.yml' #values['GENERAL_PATH']
-            additional_file_path = '/home/mitry/Документы/мёрджер/ct_ideas_l_russian.yml' #values['ADDITIONAL_FILE']
-            other_path = values['OTHER_FILE']
+            general_file_path = '/home/mitry/Документы/мёрджер/файлы_для_руссификации_тест/focus_BEX_l_english.yml' #values['GENERAL_PATH']
+            additional_file_path = '/home/mitry/Документы/мёрджер/файлы_для_руссификации_тест/focus_BEX_l_russian.yml' #values['ADDITIONAL_FILE']
+            other_path = '/home/mitry/Документы/мёрджер/BEX-The_Great_Northern_War/focus_BEX_l_english.yml' #values['OTHER_FILE']
             if mode == COMMANDS.ADDITIONAL_ENGLISH:
                 __check_input(general_file_path, additional_file_path)
                 merger = AddFileInEnglish()
@@ -75,7 +75,9 @@ while True:
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:
                 merger = SearchUpdateString()
-                merger.execute_operation(general_file_path, additional_file_path, other_path)
+                merger.execute_operation(general_path_new_v=general_file_path,
+                                         add_path=additional_file_path,
+                                         general_path_old_v=other_path)
             elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
                 merger = SearchUntransString()
                 merger.execute_operation(additional_file_path)

@@ -18,7 +18,7 @@ class AddFileInRussian(GeneralOperations):
         additional_list_string = list(additional_dict_string.keys())
 
         common_string = set(general_list_string) & set(additional_list_string)
-        additional_file = open(path_additional_file, 'w')
+        additional_file = self.write_in_file(path_additional_file)
         additional_file.write('l_russian:\n')
 
         for line in general_list_string:

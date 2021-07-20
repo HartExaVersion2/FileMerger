@@ -1,6 +1,7 @@
 from translator.translator import Translator
 from merger.general.general_operations import GeneralOperations
 
+
 class TranslateFile(GeneralOperations):
 
     def __init__(self):
@@ -23,8 +24,8 @@ class TranslateFile(GeneralOperations):
                 additional_file.write('  \n')
             else:
                 try:
-                    ru_text = self.translator.transleate_text(text=dict_english_line[line].replace('"', ''))
-                    ru_text = '"' + ru_text + '"'
+                    ru_text = self.translator.transleate_text(text=dict_english_line[line].replace(':0 "', '').replace('"', ''))
+                    ru_text = ':0 "' + ru_text + '"'
                     additional_file.write(line + ru_text + '\n')
                     if 'desc' in line:
                         additional_file.write('\n')
@@ -32,3 +33,4 @@ class TranslateFile(GeneralOperations):
                     additional_file.write(line)
         additional_file.close()
         print('Файл' + ' ' + path_additional_file.split('/')[-1] + ' Переведён')
+        self.encod_utf8_bom(path_additional_file)

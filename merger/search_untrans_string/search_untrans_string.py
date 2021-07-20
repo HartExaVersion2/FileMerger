@@ -1,6 +1,7 @@
 from merger.general.general_operations import GeneralOperations
 import re
 
+
 class SearchUntransString(GeneralOperations):
 
     def execute_operation(self, add_path):
@@ -14,14 +15,24 @@ class SearchUntransString(GeneralOperations):
 
         if english_keys:
             add_file = open(add_path, 'w')
+            add_file.write('l_russian:\n')
             for key in english_keys:
-                add_file.write(work_file_dict[key])
+                if 'l_english' in key or 'l_russian' in key:
+                    continue
+                add_file.write(key + work_file_dict[key])
+                if 'desc' in key:
+                    add_file.write('\n')
                 del work_file_dict[key]
 
             for key in work_file_dict:
-                add_file.write(work_file_dict[key])
+                if 'l_english' in key or 'l_russian' in key:
+                    continue
+                add_file.write(key + work_file_dict[key])
+                if 'desc' in key:
+                    add_file.write('\n')
 
             add_file.close()
+            self.encod_utf8_bom(add_path)
 
 
 

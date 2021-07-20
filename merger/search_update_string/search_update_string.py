@@ -1,5 +1,6 @@
 from merger.general.general_operations import GeneralOperations
 
+
 class SearchUpdateString(GeneralOperations):
 
     def execute_operation(self, general_path_old_v, general_path_new_version, add_path):
@@ -21,3 +22,4 @@ class SearchUpdateString(GeneralOperations):
                 else:
                     add_file.write(key + add_dict[key] + ' # ИЗМЕНЕНО В НОВОЙ ВЕРСИИ!') #ToDo разукрасить
             add_file.close()
+            self.encod_utf8_bom(add_path)

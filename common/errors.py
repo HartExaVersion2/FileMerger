@@ -6,3 +6,6 @@ class PathNotLeadToFile(Exception):
 
 class PathMatch(Exception):
     pass
+
+class ConnectError(Exception):
+    pass

@@ -41,9 +41,9 @@ while True:
             break
         elif event == 'Выполнить':
             mode = values['MODE']
-            general_file_path = '/home/mitry/Документы/мёрджер/файлы_для_руссификации_тест/focus_BEX_l_english.yml' #values['GENERAL_PATH']
-            additional_file_path = '/home/mitry/Документы/мёрджер/файлы_для_руссификации_тест/focus_BEX_l_russian.yml' #values['ADDITIONAL_FILE']
-            other_path = '/home/mitry/Документы/мёрджер/BEX-The_Great_Northern_War/focus_BEX_l_english.yml' #values['OTHER_FILE']
+            general_file_path = values['GENERAL_PATH']
+            additional_file_path = values['ADDITIONAL_FILE']
+            other_path = values['OTHER_FILE']
             if mode == COMMANDS.ADDITIONAL_ENGLISH:
                 __check_input(general_file_path, additional_file_path)
                 merger = AddFileInEnglish()

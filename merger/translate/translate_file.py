@@ -25,7 +25,7 @@ class TranslateFile(GeneralOperations):
                 additional_file.write('  \n')
             else:
                 try:
-                    self.__check_connection()
+                    #self.__check_connection() #ToDo пофиксить
                     ru_text = self.translator.transleate_text(text=dict_english_line[line].replace(':0 "', '').replace('"', ''))
                     ru_text = ':0 "' + ru_text + '"'
                     additional_file.write(line + ru_text + '\n')
@@ -36,6 +36,7 @@ class TranslateFile(GeneralOperations):
         additional_file.close()
         print('Файл' + ' ' + path_additional_file.split('/')[-1] + ' Переведён')
         self.encod_utf8_bom(path_additional_file)
+        self.change_file_extension(path_additional_file, '.yml')
 
     def __check_connection(self):
         for timeout in [1, 5, 10, 15]:

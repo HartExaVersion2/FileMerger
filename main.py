@@ -9,6 +9,7 @@ from merger.streamline.streamline_file import StreamlineFile
 from merger.general.general_work_with_directory import GeneralWorkWithDirectory
 from merger.search_untrans_string.search_untrans_string import SearchUntransString
 from merger.search_update_string.search_update_string import SearchUpdateString
+from visual_interfaces.work_with_interface import WorkWIthInterface
 
 def __check_input(general_path, add_path):
     if not general_path or not add_path:
@@ -20,30 +21,29 @@ def __check_input(general_path, add_path):
     if '.yml' not in add_path and '.txt' not in add_path:
         raise PathNotLeadToFile
 
-list_commands = [COMMANDS.ADDITIONAL_ENGLISH, COMMANDS.ADDITIONAL_RUSSIAN, COMMANDS.TRANSFER_FILE,
-                 COMMANDS.ALL_TRANSLATE_DIRECTRY, COMMANDS.TRANSLATE_FILE, COMMANDS.ALL_TRANSFER_DIRECTORY,
-                 COMMANDS.STREAMLINE_FILE, COMMANDS.STREAMLINE_DIRECTORY, COMMANDS.SEARCH_UPDATE_STRING_FILE,
-                 COMMANDS.SEARCH_UNTRANS_STRING_FILE]
+work_with_interface = WorkWIthInterface()
 
-layout = [
-    [sg.Combo(values=list_commands, key='MODE', default_value=list_commands[0], size=(85, 1))],
-    [sg.Text('Оригинальный файл', size=(20, 1)), sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
-    [sg.Text('Файл пользователя', size=(20, 1)), sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
-    [sg.Text('Доп. файл (если нужно)', size=(20, 1)), sg.InputText(key='OTHER_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
-    [sg.Button(button_text='Выполнить')]
-]
-window = sg.Window('File Merger', layout)
+sg.theme('DarkAmber')#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку лоя переводчиков и progressbar
+
+interface = work_with_interface.get_default_interface()
+
 while True:
     try:
-        event, values = window.read()
-        # print(event, values) #debug
+        event, values = interface.read()
+        #print(event, values) #debug
         if event in (None, 'Exit', 'Cancel'):
             break
+        elif event =='MODE':
+            interface.Close()
+            interface = work_with_interface.change_interfase(values['MODE'])
         elif event == 'Выполнить':
-            mode = values['MODE']
-            general_file_path = values['GENERAL_PATH']
-            additional_file_path = values['ADDITIONAL_FILE']
-            other_path = values['OTHER_FILE']
+            try:
+                mode = values['MODE']
+                general_file_path = values['GENERAL_PATH']
+                additional_file_path = values['ADDITIONAL_FILE']
+                other_path = values['OTHER_FILE']
+            except:
+                pass
             if mode == COMMANDS.ADDITIONAL_ENGLISH:
                 __check_input(general_file_path, additional_file_path)
                 merger = AddFileInEnglish()
@@ -56,29 +56,29 @@ while True:
                 __check_input(general_file_path, additional_file_path)
                 merger = TranslateFile()
                 merger.execute_operation(general_file_path, additional_file_path)
-            elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:
+            elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:#ToDo Добавить проверку ввода данных
                 merger = GeneralWorkWithDirectory(TranslateFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.TRANSFER_FILE:
                 __check_input(general_file_path, additional_file_path)
                 merger = TransferFile()
                 merger.execute_operation(general_file_path, additional_file_path)
-            elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:
+            elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:#ToDo Добавить проверку ввода данных
                 merger = GeneralWorkWithDirectory(TransferFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.STREAMLINE_FILE:
                 __check_input(general_file_path, additional_file_path)
                 merger = StreamlineFile()
                 merger.execute_operation(general_file_path, additional_file_path)
-            elif mode == COMMANDS.STREAMLINE_DIRECTORY:
+            elif mode == COMMANDS.STREAMLINE_DIRECTORY:#ToDo Добавить проверку ввода данных
                 merger = GeneralWorkWithDirectory(StreamlineFile)
                 merger.excution_operation_with_directory(general_file_path)
-            elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:
+            elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:#ToDo Добавить проверку ввода данных
                 merger = SearchUpdateString()
                 merger.execute_operation(general_path_new_v=general_file_path,
                                          add_path=additional_file_path,
                                          general_path_old_v=other_path)
-            elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
+            elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:#ToDo Добавить проверку ввода данных
                 merger = SearchUntransString()
                 merger.execute_operation(additional_file_path)
 
@@ -98,16 +98,5 @@ while True:
         print('Неизвестная ошибка {} пожалуйста вышлите её автору проекта'.format(error))
 
 
-#
-#   /home/mitry/Документы/BEX/focus_BEX_l_english.yml
-#   /home/mitry/Документы/файлы для руссификации/focus_BEX_l_russian.yml
-
-#ТЕСТ ПЕРЕВОДА ДИРРЕКТОРИИ
-# '/home/mitry/Документы/localization_test'
-# '/home/mitry/Документы/файлы для руссификации/focus_BEX_l_russian.yml'
-
-#/home/mitry/Документы/localization_test/focus_BEX_l_english.yml
-#/home/mitry/Документы/localization_test/focus_BEX_l_russian.yml
-
-#/home/mitry/Документы/BEX-Pax Andronikos/ideas_BEX_l_english.yml
-#/home/mitry/Документы/файлы для руссификации/ideas_BEX_l_russian.yml
+#   /home/mitry/переводы/lta/localisation_eng/focus_BEX_l_english.yml
+#   /home/mitry/переводы/lta/test/focus_BEX_l_russian.yml

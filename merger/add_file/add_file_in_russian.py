@@ -8,17 +8,17 @@ class AddFileInRussian(GeneralOperations):
     def __init__(self):
         self.translator = Translator()
 
-    def execute_operation(self, path_general_file, path_additional_file):
+    def execute_operation(self, path_general_file, add_path):
         '''Дополнить на русском языке'''
 
         general_dict_string = self.file_in_dict(path_general_file)
-        additional_dict_string = self.file_in_dict(path_additional_file)
+        additional_dict_string = self.file_in_dict(add_path)
 
         general_list_string = list(general_dict_string.keys())
         additional_list_string = list(additional_dict_string.keys())
 
         common_string = set(general_list_string) & set(additional_list_string)
-        additional_file = self.write_in_file(path_additional_file)
+        additional_file = self.write_in_file(add_path)
         additional_file.write('l_russian:\n')
 
         for line in general_list_string:
@@ -54,7 +54,8 @@ class AddFileInRussian(GeneralOperations):
                 additional_file.write(line)
         additional_file.close()
         print('Операция завершена')
-        self.encod_utf8_bom(path_additional_file)
+        self.encod_utf8_bom(add_path)
+        self.change_file_extension(add_path, '.yml')
 
     def __check_connection(self):
         for timeout in [1, 5, 10, 15]:

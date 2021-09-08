@@ -11,20 +11,28 @@ from merger.search_untrans_string.search_untrans_string import SearchUntransStri
 from merger.search_update_string.search_update_string import SearchUpdateString
 from visual_interfaces.work_with_interface import WorkWIthInterface
 
-def __check_input(general_path, add_path):
-    if not general_path or not add_path:
+def __check_input(general_path):
+    if not general_path:
         raise NotEnterPath
-    if general_path == add_path:
-        raise PathMatch
     if '.yml' not in general_path and '.txt' not in general_path:
         raise PathNotLeadToFile
-    if '.yml' not in add_path and '.txt' not in add_path:
-        raise PathNotLeadToFile
+
+def __check_input_two_path(general_path, add_path):
+    if general_path == add_path:
+        raise PathMatch
+    __check_input(general_path)
+    __check_input(add_path)
+
+def __check_input_three_path(general_path, add_path, other_path):
+    if general_path in (add_path, other_path) or add_path in (general_path, other_path) or other_path in (general_path, add_path):
+        raise PathMatch
+    __check_input(general_path)
+    __check_input(add_path)
+    __check_input(other_path)
 
 work_with_interface = WorkWIthInterface()
 
-sg.theme('DarkAmber')#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку лоя переводчиков и progressbar
-
+work_with_interface.get_theme()#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку для переводчиков и progressbar
 interface = work_with_interface.get_default_interface()
 
 while True:
@@ -33,9 +41,12 @@ while True:
         #print(event, values) #debug
         if event in (None, 'Exit', 'Cancel'):
             break
-        elif event =='MODE':
+        elif event == 'MODE':
             interface.Close()
             interface = work_with_interface.change_interfase(values['MODE'])
+        elif event == 'Назад':
+            interface.Close()
+            interface = work_with_interface.get_default_interface()
         elif event == 'Выполнить':
             try:
                 mode = values['MODE']
@@ -45,40 +56,44 @@ while True:
             except:
                 pass
             if mode == COMMANDS.ADDITIONAL_ENGLISH:
-                __check_input(general_file_path, additional_file_path)
+                __check_input_two_path(general_file_path, additional_file_path)
                 merger = AddFileInEnglish()
                 merger.execute_operation(general_file_path, additional_file_path)
             elif mode == COMMANDS.ADDITIONAL_RUSSIAN:
-                __check_input(general_file_path, additional_file_path)
+                __check_input_two_path(general_file_path, additional_file_path)
                 merger = AddFileInRussian()
                 merger.execute_operation(general_file_path, additional_file_path)
             elif mode == COMMANDS.TRANSLATE_FILE:
-                __check_input(general_file_path, additional_file_path)
+                __check_input_two_path(general_file_path, additional_file_path)
                 merger = TranslateFile()
                 merger.execute_operation(general_file_path, additional_file_path)
-            elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:#ToDo Добавить проверку ввода данных
+            elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:
+                __check_input(general_file_path)
                 merger = GeneralWorkWithDirectory(TranslateFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.TRANSFER_FILE:
-                __check_input(general_file_path, additional_file_path)
+                __check_input_two_path(general_file_path, additional_file_path)
                 merger = TransferFile()
                 merger.execute_operation(general_file_path, additional_file_path)
-            elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:#ToDo Добавить проверку ввода данных
+            elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:
+                __check_input(general_file_path)
                 merger = GeneralWorkWithDirectory(TransferFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.STREAMLINE_FILE:
-                __check_input(general_file_path, additional_file_path)
+                __check_input_two_path(general_file_path, additional_file_path)
                 merger = StreamlineFile()
                 merger.execute_operation(general_file_path, additional_file_path)
-            elif mode == COMMANDS.STREAMLINE_DIRECTORY:#ToDo Добавить проверку ввода данных
+            elif mode == COMMANDS.STREAMLINE_DIRECTORY:
+                __check_input(general_file_path)
                 merger = GeneralWorkWithDirectory(StreamlineFile)
                 merger.excution_operation_with_directory(general_file_path)
-            elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:#ToDo Добавить проверку ввода данных
+            elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:
+                __check_input_three_path(general_file_path, additional_file_path, other_path)
                 merger = SearchUpdateString()
                 merger.execute_operation(general_path_new_v=general_file_path,
                                          add_path=additional_file_path,
                                          general_path_old_v=other_path)
-            elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:#ToDo Добавить проверку ввода данных
+            elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
                 merger = SearchUntransString()
                 merger.execute_operation(additional_file_path)
 

@@ -1,12 +1,13 @@
 import PySimpleGUI as sg
 from common.constant import COMMANDS
-from visual_interfaces.interfaces import INTERFACE
+from visual_interfaces.interfaces import Interfaces
 
 
 class WorkWIthInterface():
 
     def __init__(self):
         self.current_mode = None
+        self.interfaces = Interfaces()
 
     def change_interfase(self, mode):
         # if self.current_mode == mode:
@@ -14,28 +15,34 @@ class WorkWIthInterface():
         # else:
         #     self.current_mode = mode
         if mode == COMMANDS.ADDITIONAL_ENGLISH:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.ADD_FILE_ENG)
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_add_file_eng())
         elif mode == COMMANDS.ADDITIONAL_RUSSIAN:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.ADD_FILE_RU)
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_add_file_ru())
         elif mode == COMMANDS.TRANSFER_FILE:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.TRANSFER).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_trinsfer_file()).Finalize()
         elif mode == COMMANDS.TRANSLATE_FILE:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.TRANSLATE).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_translate_file()).Finalize()
         elif mode == COMMANDS.STREAMLINE_FILE:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.STREAMLINE).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_streamline_file()).Finalize()
         elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.SEARCH_UPDATE_STR).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_search_update_str()).Finalize()
         elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.SEARCH_UNTRANS_STR).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_search_untrans_str()).Finalize()
         elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.TRANSLATE_DIRECTORY).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_translate_directory()).Finalize()
         elif mode == COMMANDS.STREAMLINE_DIRECTORY:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.STREAMLINE_DIRECTORY).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_streamline_directory()).Finalize()
         elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.TRANSFER_DIRECTORY).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_transfer_directory()).Finalize()
         else:
-            window = sg.Window('LTA (localization translator assistant)', INTERFACE.DEFAULT).Finalize()
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_default()).Finalize()
         return window
 
     def get_default_interface(self):
-        return sg.Window('LTA (localization translator assistant)', INTERFACE.DEFAULT, size=(700, 100))
+        return sg.Window('LTA (localization translator assistant)', self.interfaces.get_default(), size=(700, 100))
+
+    def get_theme(self):
+        sg.theme('Dark')
+        #sg.theme('DarkAmber')
+        #sg.theme('Dark Brown')
+        #sg.theme('Dark Blue 8')

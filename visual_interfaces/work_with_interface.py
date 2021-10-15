@@ -9,11 +9,7 @@ class WorkWIthInterface():
         self.current_mode = None
         self.interfaces = Interfaces()
 
-    def change_interfase(self, mode):
-        # if self.current_mode == mode:
-        #     return None
-        # else:
-        #     self.current_mode = mode
+    def change_interfase(self, mode, extra_options=None):
         if mode == COMMANDS.ADDITIONAL_ENGLISH:
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_add_file_eng())
         elif mode == COMMANDS.ADDITIONAL_RUSSIAN:
@@ -34,6 +30,12 @@ class WorkWIthInterface():
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_streamline_directory()).Finalize()
         elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_transfer_directory()).Finalize()
+        elif mode == COMMANDS.INTERFACE_TRANSLATOR_PATH:
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_interface_translator_path()).Finalize()
+        elif mode == COMMANDS.WHITH_HEALPER:
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_interface_translator_with_helper(extra_options)).Finalize()
+        elif mode == COMMANDS.WHITHOUT_HELPER:
+            window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_interface_translator_without_helper(extra_options)).Finalize()
         else:
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_default()).Finalize()
         return window

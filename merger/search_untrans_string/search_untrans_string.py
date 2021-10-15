@@ -14,7 +14,7 @@ class SearchUntransString(GeneralOperations):
                 english_keys.append(key)
 
         if english_keys:
-            add_file = self.write_in_file(add_path)
+            add_file = self.file_for_write(add_path)
             add_file.write('l_russian:\n')
             for key in english_keys:
                 if 'l_english' in key or 'l_russian' in key:

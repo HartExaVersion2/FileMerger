@@ -11,7 +11,7 @@ class TranslateFile(GeneralOperations):
     def execute_operation(self, path_general_file, add_path):
         list_english_line = self.file_in_list(path_general_file)
         dict_english_line = self.file_in_dict(path_general_file)
-        additional_file = self.write_in_file(add_path)
+        additional_file = self.file_for_write(add_path)
         for line in list_english_line:
             if 'l_english' in line:
                 additional_file.write('l_russian:\n')

@@ -7,8 +7,8 @@ class StreamlineFile(GeneralOperations):
         '''упорядочивает файл'''
         additional_file_in_dict = self.file_in_dict(add_path)
 
-        general_file = self.read_file(general_path)
-        additional_file = self.write_in_file(add_path)
+        general_file = self.file_for_read(general_path)
+        additional_file = self.file_for_write(add_path)
         additional_file.write('l_russian:\n')
 
         #ToDo добавить предупреждение о несовпадению кол-ва переменных

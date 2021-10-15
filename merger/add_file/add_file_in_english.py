@@ -12,7 +12,7 @@ class AddFileInEnglish(GeneralOperations):
         additional_list_string = list(additional_dict_string.keys())
 
         common_string = set(general_list_string) & set(additional_list_string)
-        additional_file = self.write_in_file(add_path)
+        additional_file = self.file_for_write(add_path)
         additional_file.write('l_russian:\n')
 
         for line in general_list_string:

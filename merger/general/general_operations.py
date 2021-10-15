@@ -6,7 +6,7 @@ import os
 class GeneralOperations(GeneralOperationsInterface):
 
     def file_in_list(self, path_on_file) -> list:
-        file = self.read_file(path_on_file)
+        file = self.file_for_read(path_on_file)
         list_string = []
         for line in file:
             if line and (':' in line):
@@ -18,7 +18,7 @@ class GeneralOperations(GeneralOperationsInterface):
         return list_string
 
     def file_in_dict(self, path_on_file) -> dict:
-        file = self.read_file(path_on_file)
+        file = self.file_for_read(path_on_file)
         dict_string = {}
         for line in file:
             if line and line != '\n':
@@ -39,8 +39,8 @@ class GeneralOperations(GeneralOperationsInterface):
         path_without_extension = os.path.splitext(path_on_file)[0]
         os.rename(path_on_file, path_without_extension + extension)
 
-    def read_file(self, path_to_file: str):
+    def file_for_read(self, path_to_file: str):
         return codecs.open(path_to_file, 'r', 'utf_8_sig')
 
-    def write_in_file(self, path_to_file: str):
+    def file_for_write(self, path_to_file: str):
         return codecs.open(path_to_file, 'w', 'utf_8_sig')

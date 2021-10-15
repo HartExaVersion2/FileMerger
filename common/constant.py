@@ -12,3 +12,15 @@ class COMMANDS:
     SEARCH_UNTRANS_STRING_DIRECTORY = 'Найти не переведённые строки в папке'
     SEARCH_UPDATE_STRING_FILE = 'Найти изменения в файле'
     SEARCH_UPDATE_STRING_DIRECTORY = 'Найти изменения в папке'
+    INTERFACE_TRANSLATOR_PATH = 'Включить интерфейс переводчика'
+    BEGIN_TRANSLATE = 'Начать перевод'
+    WHITH_HEALPER = 'True'
+    WHITHOUT_HELPER = 'False'
+
+
+class FOCUS:
+
+    TITLE = 'title'
+    DESC = 'desc'
+    TRANSLATE_TITLE = 'trans_tirle'
+    TRANSLATE_DESC = 'trans_desc'

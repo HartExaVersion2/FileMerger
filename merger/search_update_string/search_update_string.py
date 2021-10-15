@@ -17,7 +17,7 @@ class SearchUpdateString(GeneralOperations):
                 incumbent_string.append(old_v_key)
 
         if incumbent_string:
-            add_file = self.write_in_file(add_path)
+            add_file = self.file_for_write(add_path)
             add_file.write('l_russian:\n')
             for key in add_dict:
                 if 'l_english' in key or 'l_russian' in key:

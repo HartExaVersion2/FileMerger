@@ -81,7 +81,24 @@ class Interfaces:
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
+    def get_interface_translator_path(self):
+        return [[sg.Checkbox(default=True, text='Помощник в переводе', key='HELPER')],
+         [sg.Text('Оригинальный файл:', size=(20, 1))],
+         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+         [sg.Text('Ваш файл:', size=(20, 1))],
+         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+         [sg.Button(button_text='Назад'), sg.Button(button_text=COMMANDS.BEGIN_TRANSLATE)]]
+
+    def get_interface_translator_without_helper(self, param: list):
+        return [[sg.Listbox(size=(60, 60), values=[]), sg.Multiline(size=(60, 60), key='textbox')],
+                [sg.Button(button_text='Назад'), sg.Button(button_text='Сохранить'), sg.Button(button_text='Далее')]]
+
+    def get_interface_translator_with_helper(self, param: list):
+        return [[sg.Text(param[0], size=(60, 20)), sg.Text(param[2], size=(60, 20)), sg.Multiline(size=(60, 20), key='title')],
+                [sg.Text(param[1], size=(60, 40)), sg.Text(param[3], size=(60, 40)), sg.Multiline(size=(60, 40), key='desc')],
+                [sg.Button(button_text='Назад'), sg.Button(button_text='Сохранить'), sg.Button(button_text='Далее')]]
+
     def get_default(self):
         return [[sg.Text('Привет, выбери желаемый режим')],
-        [sg.Button(button_text='Включить интерфейс переводчика')],
+        [sg.Button(button_text=COMMANDS.INTERFACE_TRANSLATOR_PATH)],
         [sg.Combo(values=list_commands, key='MODE', size=(85, 1), enable_events=True)]]

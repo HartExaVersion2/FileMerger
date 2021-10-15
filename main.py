@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from common.constant import COMMANDS
+from common.constant import COMMANDS, FOCUS
 from common.errors import *
 from merger.add_file.add_file_in_english import AddFileInEnglish
 from merger.add_file.add_file_in_russian import AddFileInRussian
@@ -10,6 +10,7 @@ from merger.general.general_work_with_directory import GeneralWorkWithDirectory
 from merger.search_untrans_string.search_untrans_string import SearchUntransString
 from merger.search_update_string.search_update_string import SearchUpdateString
 from visual_interfaces.work_with_interface import WorkWIthInterface
+from translator_helper.translator_helper import TranslatorHealper
 
 def __check_input(general_path):
     if not general_path:
@@ -30,6 +31,34 @@ def __check_input_three_path(general_path, add_path, other_path):
     __check_input(add_path)
     __check_input(other_path)
 
+def __translator(interface, general_file_path, additional_file_path, helper=True):
+    interface.Close()
+    interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HEALPER, extra_options=['тут будет оригинальное название фокуса',
+                                                                                                 'тут будет переведённое название фокуса',
+                                                                                                 'тут будет оригинальное описание фокуса',
+                                                                                                 'тут будет переведённое описание фокуса'])
+    translator_healper = TranslatorHealper(path_general_file='/home/mitry/переводы/lta/test/focus_BEX_l_english.yml', add_path='/home/mitry/переводы/lta/test/focus_BEX_l_russian.yml')#path_general_file=general_file_path, add_path=additional_file_path #ToDo не забыть убрать
+    while True:
+        event, values = interface.read()
+        if event in (None, 'Exit', 'Cancel', 'Назад'):
+            translator_healper.save()
+            break
+        elif event == 'Сохранить':
+            translator_healper.save()
+        elif event == 'Далее':
+            translator_healper.save()
+            next_focus = translator_healper.further(values['title'], values['desc'])
+            interface.Close()
+            interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HEALPER,
+                                                             extra_options=[next_focus[FOCUS.TITLE],
+                                                                            next_focus[FOCUS.DESC],
+                                                                            next_focus[FOCUS.TRANSLATE_TITLE],
+                                                                            next_focus[FOCUS.TRANSLATE_DESC]])
+        print(event, values)
+    interface.Close()
+    interface = work_with_interface.get_default_interface()
+    return interface
+
 work_with_interface = WorkWIthInterface()
 
 work_with_interface.get_theme()#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку для переводчиков и progressbar
@@ -47,6 +76,17 @@ while True:
         elif event == 'Назад':
             interface.Close()
             interface = work_with_interface.get_default_interface()
+        elif event == COMMANDS.INTERFACE_TRANSLATOR_PATH:
+            interface.Close()
+            interface = work_with_interface.change_interfase(COMMANDS.INTERFACE_TRANSLATOR_PATH)
+        elif event == COMMANDS.BEGIN_TRANSLATE:
+            general_file_path = values['GENERAL_PATH']
+            additional_file_path = values['ADDITIONAL_FILE']
+            if values['HELPER']:
+                interface = __translator(interface, general_file_path, additional_file_path)
+            else:
+                interface.Close()
+                interface = work_with_interface.change_interfase(COMMANDS.WHITHOUT_HELPER)
         elif event == 'Выполнить':
             try:
                 mode = values['MODE']

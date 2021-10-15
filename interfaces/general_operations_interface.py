@@ -15,9 +15,9 @@ class GeneralOperationsInterface(ABC):
         pass
 
     @abstractmethod
-    def read_file(self, path_to_file: str):
+    def file_for_read(self, path_to_file: str):
         pass
 
     @abstractmethod
-    def write_in_file(self, path_to_file: str):
+    def file_for_write(self, path_to_file: str):
         pass

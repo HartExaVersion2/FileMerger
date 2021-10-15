@@ -4,8 +4,8 @@ from merger.general.general_operations import GeneralOperations
 class TransferFile(GeneralOperations):
 
     def execute_operation(self, general_path, add_path):
-        general_file = self.read_file(general_path)
-        add_file = self.write_in_file(add_path)
+        general_file = self.file_for_read(general_path)
+        add_file = self.file_for_write(add_path)
         add_file.write('l_russian:\n')
         for line in general_file:
             if 'l_english' in line:

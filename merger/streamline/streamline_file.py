@@ -11,7 +11,6 @@ class StreamlineFile(GeneralOperations):
         additional_file = self.file_for_write(add_path)
         additional_file.write('l_russian:\n')
 
-        #ToDo добавить предупреждение о несовпадению кол-ва переменных
         for line in general_file:
             try:
                 if 'l_english' in line:

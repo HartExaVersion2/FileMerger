@@ -44,7 +44,7 @@ class WorkWIthInterface():
         return sg.Window('LTA (localization translator assistant)', self.interfaces.get_default(), size=(700, 100))
 
     def get_theme(self):
-        sg.theme('Dark')
-        #sg.theme('DarkAmber')
+        # sg.theme('Dark')
+        sg.theme('DarkAmber')
         #sg.theme('Dark Brown')
         #sg.theme('Dark Blue 8')

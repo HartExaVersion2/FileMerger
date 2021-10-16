@@ -94,7 +94,7 @@ class Interfaces:
                 [sg.Button(button_text='Назад'), sg.Button(button_text='Сохранить'), sg.Button(button_text='Далее')]]
 
     def get_interface_translator_with_helper(self, param: list):
-        return [[sg.Text(param[0], size=(60, 20)), sg.Text(param[2], size=(60, 20)), sg.Multiline(size=(60, 20), key='title')],
+        return [[sg.Text(param[0], size=(60, 10)), sg.Text(param[2], size=(60, 10)), sg.Multiline(size=(60, 10), key='title')],
                 [sg.Text(param[1], size=(60, 40)), sg.Text(param[3], size=(60, 40)), sg.Multiline(size=(60, 40), key='desc')],
                 [sg.Button(button_text='Назад'), sg.Button(button_text='Сохранить'), sg.Button(button_text='Далее')]]
 

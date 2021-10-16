@@ -1,4 +1,5 @@
 from merger.general.general_operations import GeneralOperations
+from translator_helper.preprocessor import Preprocessor
 from translator.translator import Translator
 from common.constant import FOCUS
 
@@ -6,16 +7,20 @@ class TranslatorHealperOperations(GeneralOperations):
 
     def __init__(self, path_general_file, add_path):
         self.translator = Translator()
+        self.preprocessor = Preprocessor(path_general_file, add_path)
 
         self.add_path = add_path
-        self.general_dict = self.file_in_dict(path_general_file)
+        self.general_dict = self.preprocessor.get_general_dict()
+        self.earlier_translation = self.file_in_dict(add_path)
+        if 'l_russian' in self.earlier_translation.keys():
+            del self.earlier_translation['l_russian']
         self.headers = list(self.general_dict.keys())
         self.focuses = list(self.general_dict.values())
         self.current_text_focus = ''
         self.current_title_focus = ''
         self.variable_current_desc_focus = ''
         self.variable_current_title_focus = ''
-        self.translator_dictionary = {}
+        self.translator_dictionary = self.earlier_translation
 
     def __search_focus(self):#ToDo нет условия остановки. Оно будет работать бесконечно с Последними найденными значениями
         for header in self.headers:
@@ -41,13 +46,13 @@ class TranslatorHealperOperations(GeneralOperations):
 
     def write_focus(self, title, desc):
         if title != '\n' and desc != '\n':
-            self.translator_dictionary[self.variable_current_title_focus] = ':0 "' + title + '"'
-            self.translator_dictionary[self.variable_current_desc_focus] = ':0 "' + desc + '"'
+            self.translator_dictionary[self.variable_current_title_focus] = ':0 "' + title.replace('\n', '') + '"' + '\n'
+            self.translator_dictionary[self.variable_current_desc_focus] = ':0 "' + desc.replace('\n', '') + '"' + '\n'
 
     def save_in_file(self):
         variables = list(self.translator_dictionary.keys())
         file = self.file_for_write(self.add_path)
-        file.write('l_russian:')
+        file.write('l_russian:\n')
         for variable in variables:
             file.write(variable + self.translator_dictionary[variable])
             if 'desc' in variable:

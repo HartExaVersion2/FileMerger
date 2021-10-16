@@ -1,4 +1,3 @@
-import PySimpleGUI as sg
 from common.constant import COMMANDS, FOCUS
 from common.errors import *
 from merger.add_file.add_file_in_english import AddFileInEnglish
@@ -34,8 +33,8 @@ def __check_input_three_path(general_path, add_path, other_path):
 def __translator(interface, general_file_path, additional_file_path, helper=True):
     interface.Close()
     interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HEALPER, extra_options=['тут будет оригинальное название фокуса',
-                                                                                                 'тут будет переведённое название фокуса',
                                                                                                  'тут будет оригинальное описание фокуса',
+                                                                                                 'тут будет переведённое название фокуса',
                                                                                                  'тут будет переведённое описание фокуса'])
     translator_healper = TranslatorHealper(path_general_file='/home/mitry/переводы/lta/test/focus_BEX_l_english.yml', add_path='/home/mitry/переводы/lta/test/focus_BEX_l_russian.yml')#path_general_file=general_file_path, add_path=additional_file_path #ToDo не забыть убрать
     while True:

@@ -3,8 +3,9 @@ from translator_helper.translator_helper_operations import TranslatorHealperOper
 class TranslatorHealper(TranslatorHealperOperations):
 
     def further(self, title, desc):
-        self.write_focus(title, desc)
-        self.save()
+        if title != '\n' and desc != '\n':
+            self.write_focus(title, desc)
+            self.save()
         next_focus = self.get_focus()
         return next_focus
 

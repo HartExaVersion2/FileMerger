@@ -32,7 +32,7 @@ class WorkWIthInterface():
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_transfer_directory()).Finalize()
         elif mode == COMMANDS.INTERFACE_TRANSLATOR_PATH:
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_interface_translator_path()).Finalize()
-        elif mode == COMMANDS.WHITH_HEALPER:
+        elif mode == COMMANDS.WHITH_HELPER:
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_interface_translator_with_helper(extra_options)).Finalize()
         elif mode == COMMANDS.WHITHOUT_HELPER:
             window = sg.Window('LTA (localization translator assistant)', self.interfaces.get_interface_translator_without_helper(extra_options)).Finalize()

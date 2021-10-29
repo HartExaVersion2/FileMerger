@@ -1,12 +1,14 @@
 from merger.general.general_operations import GeneralOperations
-from translator_helper.preprocessor import Preprocessor
+from translator_interface.translator_helper.preprocessor import Preprocessor
 from translator.translator import Translator
 from common.constant import FOCUS
 
 class TranslatorHealperOperations(GeneralOperations):
 
-    def __init__(self, path_general_file, add_path):
-        self.translator = Translator()
+    def __init__(self, path_general_file, add_path, translate=True):
+        self.translate = translate
+        if translate:
+            self.translator = Translator()
         self.preprocessor = Preprocessor(path_general_file, add_path)
 
         self.add_path = add_path
@@ -36,11 +38,16 @@ class TranslatorHealperOperations(GeneralOperations):
     def get_focus(self):
         self.__search_focus()
         if self.current_title_focus is not None and self.current_text_focus is not None:
-            trans_title = self.translator.transleate_text(self.current_title_focus)
-            trans_desc = self.translator.transleate_text(self.current_text_focus)
-            all_focus = {FOCUS.TITLE: self.current_title_focus, FOCUS.DESC: self.current_text_focus, FOCUS.TRANSLATE_TITLE:
-                         trans_title, FOCUS.TRANSLATE_DESC: trans_desc}
-            return all_focus
+            if self.translate:
+                trans_title = self.translator.transleate_text(self.current_title_focus)
+                trans_desc = self.translator.transleate_text(self.current_text_focus)
+                all_focus = {FOCUS.TITLE: self.current_title_focus, FOCUS.DESC: self.current_text_focus, FOCUS.TRANSLATE_TITLE:
+                             trans_title, FOCUS.TRANSLATE_DESC: trans_desc}
+                return all_focus
+            else:
+                all_focus = {FOCUS.TITLE: self.current_title_focus, FOCUS.DESC: self.current_text_focus, FOCUS.TRANSLATE_TITLE:
+                             None, FOCUS.TRANSLATE_DESC: None}
+                return all_focus
         else:
             return None
 

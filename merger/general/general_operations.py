@@ -1,4 +1,4 @@
-from interfaces.general_operations_interface import GeneralOperationsInterface
+from program_interfaces.general_operations_interface import GeneralOperationsInterface
 import shutil
 import codecs
 import os

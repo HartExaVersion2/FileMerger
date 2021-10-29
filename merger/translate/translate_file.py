@@ -26,7 +26,7 @@ class TranslateFile(GeneralOperations):
             else:
                 try:
                     #self.__check_connection() #ToDo пофиксить
-                    ru_text = self.translator.transleate_text(text=dict_english_line[line].replace(':0 "', '').replace('"', ''))
+                    ru_text = self.translator.transleate_text(text=dict_english_line[line].replace(':0 "', '').replace('"', '')[2:])
                     ru_text = ':0 "' + ru_text + '"'
                     additional_file.write(line + ru_text + '\n')
                     if 'desc' in line:

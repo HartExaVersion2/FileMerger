@@ -1,4 +1,4 @@
-from interfaces.work_with_directory_interface import GeneralWorkWithInterface
+from program_interfaces.work_with_directory_interface import GeneralWorkWithInterface
 import os
 
 class GeneralWorkWithDirectory(GeneralWorkWithInterface):

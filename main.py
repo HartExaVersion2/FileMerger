@@ -9,7 +9,7 @@ from merger.general.general_work_with_directory import GeneralWorkWithDirectory
 from merger.search_untrans_string.search_untrans_string import SearchUntransString
 from merger.search_update_string.search_update_string import SearchUpdateString
 from visual_interfaces.work_with_interface import WorkWIthInterface
-from translator_helper.translator_helper import TranslatorHealper
+from translator_interface.translator_helper.helper_with_translate_focuses import TranslatorHealper
 
 def __check_input(general_path):
     if not general_path:
@@ -30,13 +30,21 @@ def __check_input_three_path(general_path, add_path, other_path):
     __check_input(add_path)
     __check_input(other_path)
 
-def __translator(interface, general_file_path, additional_file_path, helper=True):
+def __translator(interface, helper=True):
     interface.Close()
-    interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HEALPER, extra_options=['тут будет оригинальное название фокуса',
-                                                                                                 'тут будет оригинальное описание фокуса',
-                                                                                                 'тут будет переведённое название фокуса',
-                                                                                                 'тут будет переведённое описание фокуса'])
-    translator_healper = TranslatorHealper(path_general_file='/home/mitry/переводы/lta/test/focus_BEX_l_english.yml', add_path='/home/mitry/переводы/lta/test/focus_BEX_l_russian.yml')#path_general_file=general_file_path, add_path=additional_file_path #ToDo не забыть убрать
+    if helper:
+        interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HELPER,
+                                                         extra_options=['тут будет оригинальное название фокуса',
+                                                                        'тут будет оригинальное описание фокуса',
+                                                                        'тут будет переведённое название фокуса',
+                                                                        'тут будет переведённое описание фокуса'])
+        translator_healper = TranslatorHealper(path_general_file=general_file_path, add_path=additional_file_path)#path_general_file=general_file_path, add_path=additional_file_path #ToDo не забыть убрать
+    else:
+        interface = work_with_interface.change_interfase(mode=COMMANDS.WHITHOUT_HELPER,
+                                                         extra_options=['тут будет оригинальное название фокуса',
+                                                                        'тут будет оригинальное описание фокуса',])
+        translator_healper = TranslatorHealper(path_general_file=general_file_path, add_path=additional_file_path,
+                                               translate=False)
     while True:
         event, values = interface.read()
         if event in (None, 'Exit', 'Cancel', 'Назад'):
@@ -48,11 +56,18 @@ def __translator(interface, general_file_path, additional_file_path, helper=True
             translator_healper.save()
             next_focus = translator_healper.further(values['title'], values['desc'])
             interface.Close()
-            interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HEALPER,
-                                                             extra_options=[next_focus[FOCUS.TITLE],
-                                                                            next_focus[FOCUS.DESC],
-                                                                            next_focus[FOCUS.TRANSLATE_TITLE],
-                                                                            next_focus[FOCUS.TRANSLATE_DESC]])
+            if helper:
+                interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HELPER,
+                                                                 extra_options=[next_focus[FOCUS.TITLE],
+                                                                                next_focus[FOCUS.DESC],
+                                                                                next_focus[FOCUS.TRANSLATE_TITLE],
+                                                                                next_focus[FOCUS.TRANSLATE_DESC]])
+            else:
+                interface = work_with_interface.change_interfase(mode=COMMANDS.WHITHOUT_HELPER,
+                                                                 extra_options=[next_focus[FOCUS.TITLE],
+                                                                                next_focus[FOCUS.DESC],
+                                                                                next_focus[FOCUS.TRANSLATE_TITLE],
+                                                                                next_focus[FOCUS.TRANSLATE_DESC]])
         print(event, values)
     interface.Close()
     interface = work_with_interface.get_default_interface()
@@ -82,10 +97,9 @@ while True:
             general_file_path = values['GENERAL_PATH']
             additional_file_path = values['ADDITIONAL_FILE']
             if values['HELPER']:
-                interface = __translator(interface, general_file_path, additional_file_path)
+                interface = __translator(interface, True)
             else:
-                interface.Close()
-                interface = work_with_interface.change_interfase(COMMANDS.WHITHOUT_HELPER)
+                interface = __translator(interface, False)
         elif event == 'Выполнить':
             try:
                 mode = values['MODE']

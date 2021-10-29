@@ -14,7 +14,7 @@ class COMMANDS:
     SEARCH_UPDATE_STRING_DIRECTORY = 'Найти изменения в папке'
     INTERFACE_TRANSLATOR_PATH = 'Включить интерфейс переводчика'
     BEGIN_TRANSLATE = 'Начать перевод'
-    WHITH_HEALPER = 'True'
+    WHITH_HELPER = 'True'
     WHITHOUT_HELPER = 'False'
 
 

@@ -1,4 +1,4 @@
-from translator_helper.translator_helper_operations import TranslatorHealperOperations
+from translator_interface.translator_helper.translator_helper_operations import TranslatorHealperOperations
 
 class TranslatorHealper(TranslatorHealperOperations):
 
@@ -6,7 +6,7 @@ class TranslatorHealper(TranslatorHealperOperations):
         if title != '\n' and desc != '\n':
             self.write_focus(title, desc)
             self.save()
-        next_focus = self.get_focus()
+        next_focus = self.get_focus() #ToDO сюда может прилететь None. Сделать отработку как исключение
         return next_focus
 
 

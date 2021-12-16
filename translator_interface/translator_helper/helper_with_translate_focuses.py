@@ -5,7 +5,6 @@ class TranslatorHealper(TranslatorHealperOperations):
 
     @decorator_for_output_errors()
     def further(self, title, desc):
-        a = 1/0
         if title != '\n' and desc != '\n':
             self.write_focus(title, desc)
             self.save()

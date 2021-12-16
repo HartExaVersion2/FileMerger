@@ -1,7 +1,9 @@
 from merger.general.general_operations import GeneralOperations
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class AddFileInEnglish(GeneralOperations):
 
+    @decorator_for_output_errors()
     def execute_operation(self, path_general_file, add_path):
         '''Дополнить файл на английском'''
 

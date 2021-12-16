@@ -1,8 +1,9 @@
 from merger.general.general_operations import GeneralOperations
-
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class StreamlineFile(GeneralOperations):
 
+    @decorator_for_output_errors()
     def execute_operation(self, general_path, add_path):
         '''упорядочивает файл'''
         additional_file_in_dict = self.file_in_dict(add_path)

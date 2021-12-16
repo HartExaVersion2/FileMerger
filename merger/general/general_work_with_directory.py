@@ -1,11 +1,13 @@
 from program_interfaces.work_with_directory_interface import GeneralWorkWithInterface
 import os
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class GeneralWorkWithDirectory(GeneralWorkWithInterface):
 
     def __init__(self, operations):
         self.operations = operations()
 
+    @decorator_for_output_errors()
     def excution_operation_with_directory(self, general_directory):
         list_of_files = os.listdir(general_directory)
 

@@ -1,5 +1,5 @@
 from merger.general.general_operations import GeneralOperations
-
+from common.decorator_for_output_errors import decorator_for_output_errors
 class Preprocessor(GeneralOperations):
 
     def __init__(self, general_path, add_path):
@@ -7,7 +7,7 @@ class Preprocessor(GeneralOperations):
         self.general_dict = self.file_in_dict(general_path)
         self.add_dict = self.file_in_dict(add_path)
 
-
+    @decorator_for_output_errors()
     def __build_dict_untranslated_focuses(self):
         general_keys = set(list(self.general_dict.keys()))
         add_keys = set(list(self.add_dict.keys()))
@@ -17,6 +17,7 @@ class Preprocessor(GeneralOperations):
             total_dict[key] = self.general_dict[key]
         return total_dict
 
+    @decorator_for_output_errors()
     def get_general_dict(self):
         dictionary_untranslated_focuses = self.__build_dict_untranslated_focuses()
         general_keys = list(self.general_dict.keys())

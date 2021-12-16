@@ -1,9 +1,10 @@
 from merger.general.general_operations import GeneralOperations
 import re
-
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class SearchUntransString(GeneralOperations):
 
+    @decorator_for_output_errors()
     def execute_operation(self, add_path):
         work_file_dict = self.file_in_dict(add_path)
         english_keys = []

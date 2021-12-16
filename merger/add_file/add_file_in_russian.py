@@ -2,12 +2,14 @@ from translator.translator import Translator
 from merger.general.general_operations import GeneralOperations
 from urllib.request import urlopen
 from common.errors import ConnectError
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class AddFileInRussian(GeneralOperations):
 
     def __init__(self):
         self.translator = Translator()
 
+    @decorator_for_output_errors()
     def execute_operation(self, path_general_file, add_path):
         '''Дополнить на русском языке'''
 
@@ -57,6 +59,7 @@ class AddFileInRussian(GeneralOperations):
         self.encod_utf8_bom(add_path)
         self.change_file_extension(add_path, '.yml')
 
+    @decorator_for_output_errors()
     def __check_connection(self):
         for timeout in [1, 5, 10, 15]:
             try:

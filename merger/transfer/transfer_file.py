@@ -1,8 +1,9 @@
 from merger.general.general_operations import GeneralOperations
-
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class TransferFile(GeneralOperations):
 
+    @decorator_for_output_errors()
     def execute_operation(self, general_path, add_path):
         general_file = self.file_for_read(general_path)
         add_file = self.file_for_write(add_path)

@@ -1,8 +1,9 @@
 from merger.general.general_operations import GeneralOperations
-
+from common.decorator_for_output_errors import decorator_for_output_errors
 
 class SearchUpdateString(GeneralOperations):
 
+    @decorator_for_output_errors()
     def execute_operation(self, general_path_old_v, general_path_new_v, add_path):
         old_v_dict = self.file_in_dict(general_path_old_v)
         new_v_dict = self.file_in_dict(general_path_new_v)

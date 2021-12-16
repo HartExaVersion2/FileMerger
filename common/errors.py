@@ -9,3 +9,6 @@ class PathMatch(Exception):
 
 class ConnectError(Exception):
     pass
+
+class UnknownError(Exception):
+    pass

@@ -35,15 +35,9 @@ class GeneralOperations(GeneralOperationsInterface):
 
     @decorator_for_output_errors()
     def encod_utf8_bom(self, path_on_file: str):
-        with codecs.open(path_on_file, encoding="utf-8") as f_in, codecs.open(path_on_file + ".tmp", encoding="utf-8-sig", mode="w") as f_out:
+        with codecs.open(path_on_file, encoding="utf-8") as f_in, codecs.open(path_on_file + ".yml", encoding="utf-8-sig", mode="w") as f_out:
             f_out.write(f_in.read())
-            shutil.move(path_on_file + ".tmp", path_on_file)
-
-    @decorator_for_output_errors()
-    def change_file_extension(self, path_on_file, extension):
-        path_on_file = path_on_file
-        path_without_extension = os.path.splitext(path_on_file)[0]
-        os.rename(path_on_file, path_without_extension + extension)
+        shutil.move(path_on_file + ".yml", path_on_file)
 
     @decorator_for_output_errors()
     def file_for_read(self, path_to_file: str):

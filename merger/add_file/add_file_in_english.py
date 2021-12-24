@@ -49,4 +49,3 @@ class AddFileInEnglish(GeneralOperations):
         additional_file.close()
 
         self.encod_utf8_bom(add_path)
-        self.change_file_extension(add_path, '.yml')

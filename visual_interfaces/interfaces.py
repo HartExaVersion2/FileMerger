@@ -26,7 +26,7 @@ class Interfaces:
     def get_search_untrans_str(self):
         return [[sg.Combo(values=list_commands, key='MODE', default_value=COMMANDS.SEARCH_UNTRANS_STRING_FILE, size=(85, 1), enable_events=True)],
         [sg.Text('Файл для поиска непереведённых слов:')],
-        [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор')],
+        [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_search_update_str(self):

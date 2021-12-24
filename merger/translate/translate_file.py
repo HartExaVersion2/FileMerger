@@ -3,6 +3,7 @@ from merger.general.general_operations import GeneralOperations
 from urllib.request import urlopen
 from common.errors import ConnectError
 from common.decorator_for_output_errors import decorator_for_output_errors
+import time
 
 class TranslateFile(GeneralOperations):
 
@@ -28,7 +29,9 @@ class TranslateFile(GeneralOperations):
             else:
                 try:
                     #self.__check_connection() #ToDo пофиксить
-                    ru_text = self.translator.transleate_text(text=dict_english_line[line].replace(':0 "', '').replace('"', '')[2:])
+                    time.sleep(0.5)
+                    text = dict_english_line[line].replace(':0 "', '').replace('"', '')
+                    ru_text = self.translator.transleate_text(text=text)
                     ru_text = ':0 "' + ru_text + '"'
                     additional_file.write(line + ru_text + '\n')
                     if 'desc' in line:
@@ -38,7 +41,6 @@ class TranslateFile(GeneralOperations):
         additional_file.close()
         print('Файл' + ' ' + add_path.split('/')[-1] + ' Переведён')
         self.encod_utf8_bom(add_path)
-        self.change_file_extension(add_path, '.yml')
 
     @decorator_for_output_errors()
     def __check_connection(self):

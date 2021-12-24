@@ -16,4 +16,3 @@ class TransferFile(GeneralOperations):
         print('Перенос файла {} завершён'.format(general_path))
         add_file.close()
         self.encod_utf8_bom(add_path)
-        self.change_file_extension(add_path, '.yml')

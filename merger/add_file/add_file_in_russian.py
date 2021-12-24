@@ -57,7 +57,6 @@ class AddFileInRussian(GeneralOperations):
         additional_file.close()
         print('Операция завершена')
         self.encod_utf8_bom(add_path)
-        self.change_file_extension(add_path, '.yml')
 
     @decorator_for_output_errors()
     def __check_connection(self):

@@ -24,9 +24,7 @@ class StreamlineFile(GeneralOperations):
                 else:
                     additional_file.write(line)
             except Exception as e:
-                print(e)
                 additional_file.write(line)
         general_file.close()
         additional_file.close()
         self.encod_utf8_bom(add_path)
-        self.change_file_extension(add_path, '.yml')

@@ -11,7 +11,7 @@ from merger.search_update_string.search_update_string import SearchUpdateString
 from visual_interfaces.work_with_interface import WorkWIthInterface
 from translator_interface.translator_helper.helper_with_translate_focuses import TranslatorHealper
 
-def __check_input(general_path):
+def __check_input_one_path(general_path):
     if not general_path:
         raise NotEnterPath
     if '.yml' not in general_path and '.txt' not in general_path:
@@ -20,15 +20,15 @@ def __check_input(general_path):
 def __check_input_two_path(general_path, add_path):
     if general_path == add_path:
         raise PathMatch
-    __check_input(general_path)
-    __check_input(add_path)
+    __check_input_one_path(general_path)
+    __check_input_one_path(add_path)
 
 def __check_input_three_path(general_path, add_path, other_path):
     if general_path in (add_path, other_path) or add_path in (general_path, other_path) or other_path in (general_path, add_path):
         raise PathMatch
-    __check_input(general_path)
-    __check_input(add_path)
-    __check_input(other_path)
+    __check_input_one_path(general_path)
+    __check_input_one_path(add_path)
+    __check_input_one_path(other_path)
 
 def __translator(interface, helper=True):
     interface.Close()
@@ -81,7 +81,7 @@ interface = work_with_interface.get_default_interface()
 while True:
     try:
         event, values = interface.read()
-        #print(event, values) #debug
+        print(event, values) #debug
         if event in (None, 'Exit', 'Cancel'):
             break
         elif event == 'MODE':
@@ -121,7 +121,7 @@ while True:
                 merger = TranslateFile()
                 merger.execute_operation(general_file_path, additional_file_path)
             elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:
-                __check_input(general_file_path)
+                __check_input_one_path(general_file_path)
                 merger = GeneralWorkWithDirectory(TranslateFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.TRANSFER_FILE:
@@ -129,7 +129,7 @@ while True:
                 merger = TransferFile()
                 merger.execute_operation(general_file_path, additional_file_path)
             elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:
-                __check_input(general_file_path)
+                __check_input_one_path(general_file_path)
                 merger = GeneralWorkWithDirectory(TransferFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.STREAMLINE_FILE:
@@ -137,7 +137,7 @@ while True:
                 merger = StreamlineFile()
                 merger.execute_operation(general_file_path, additional_file_path)
             elif mode == COMMANDS.STREAMLINE_DIRECTORY:
-                __check_input(general_file_path)
+                __check_input_one_path(general_file_path)
                 merger = GeneralWorkWithDirectory(StreamlineFile)
                 merger.excution_operation_with_directory(general_file_path)
             elif mode == COMMANDS.SEARCH_UPDATE_STRING_FILE:
@@ -148,7 +148,7 @@ while True:
                                          general_path_old_v=other_path)
             elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
                 merger = SearchUntransString()
-                merger.execute_operation(additional_file_path)
+                merger.execute_operation(general_file_path)
 
     except NotADirectoryError:
         print('Указанный путь не является папкой, укажите путь до папки')

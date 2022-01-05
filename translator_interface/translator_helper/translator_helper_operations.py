@@ -1,6 +1,6 @@
 from merger.general.general_operations import GeneralOperations
 from translator_interface.translator_helper.preprocessor import Preprocessor
-from translator.translator import Translator
+from translator.translator import TextTranslator
 from common.constant import FOCUS
 from common.decorator_for_output_errors import decorator_for_output_errors
 
@@ -9,7 +9,7 @@ class TranslatorHealperOperations(GeneralOperations):
     def __init__(self, path_general_file, add_path, translate=True):
         self.translate = translate
         if translate:
-            self.translator = Translator()
+            self.translator = TextTranslator()
         self.preprocessor = Preprocessor(path_general_file, add_path)
 
         self.add_path = add_path

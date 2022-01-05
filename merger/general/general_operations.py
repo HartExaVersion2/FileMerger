@@ -8,7 +8,7 @@ from common.decorator_for_output_errors import decorator_for_output_errors
 class GeneralOperations(GeneralOperationsInterface):
 
     @decorator_for_output_errors()
-    def file_in_list(self, path_on_file):
+    def file_in_list(self, path_on_file: str) -> list:
         file = self.file_for_read(path_on_file)
         list_string = []
         for line in file:
@@ -21,7 +21,7 @@ class GeneralOperations(GeneralOperationsInterface):
         return list_string
 
     @decorator_for_output_errors()
-    def file_in_dict(self, path_on_file) -> dict:
+    def file_in_dict(self, path_on_file: str) -> dict:
         file = self.file_for_read(path_on_file)
         dict_string = {}
         for line in file:

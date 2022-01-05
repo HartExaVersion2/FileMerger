@@ -1,8 +1,8 @@
-from program_interfaces.work_with_directory_interface import GeneralWorkWithInterface
+from program_interfaces.work_with_directory_interface import GeneralWorkWithDirectoryInterface
 import os
 from common.decorator_for_output_errors import decorator_for_output_errors
 
-class GeneralWorkWithDirectory(GeneralWorkWithInterface):
+class GeneralWorkWithDirectory(GeneralWorkWithDirectoryInterface):
 
     def __init__(self, operations):
         self.operations = operations()

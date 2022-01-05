@@ -1,5 +1,6 @@
 from merger.general.general_operations import GeneralOperations
 from common.decorator_for_output_errors import decorator_for_output_errors
+
 class Preprocessor(GeneralOperations):
 
     def __init__(self, general_path, add_path):

@@ -6,7 +6,6 @@ from visual_interfaces.interfaces import Interfaces
 class WorkWIthInterface():
 
     def __init__(self):
-        self.current_mode = None
         self.interfaces = Interfaces()
 
     def change_interfase(self, mode, extra_options=None):
@@ -41,10 +40,10 @@ class WorkWIthInterface():
         return window
 
     def get_default_interface(self):
-        return sg.Window('LTA (localization translator assistant)', self.interfaces.get_default(), size=(700, 100))
+        return sg.Window('LTA (localization translator assistant)', self.interfaces.get_default())
 
-    def get_theme(self):
+    def get_theme(self, name):
         # sg.theme('Dark')
-        sg.theme('DarkAmber')
+        sg.theme(name)
         #sg.theme('Dark Brown')
         #sg.theme('Dark Blue 8')

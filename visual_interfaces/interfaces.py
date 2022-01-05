@@ -13,6 +13,7 @@ class Interfaces:
         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Text('Ваш файл:', size=(20, 1))],
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_add_file_ru(self):
@@ -21,12 +22,14 @@ class Interfaces:
         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Text('Ваш файл:', size=(20, 1))],
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_search_untrans_str(self):
         return [[sg.Combo(values=list_commands, key='MODE', default_value=COMMANDS.SEARCH_UNTRANS_STRING_FILE, size=(85, 1), enable_events=True)],
         [sg.Text('Файл для поиска непереведённых слов:')],
         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор')],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_search_update_str(self):
@@ -37,6 +40,7 @@ class Interfaces:
         [sg.InputText(key='OTHER_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Text('Ваш файл:')],
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_streamline_file(self):
@@ -45,6 +49,7 @@ class Interfaces:
         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Text('Ваш файл:', size=(20, 1))],
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_trinsfer_file(self):
@@ -53,6 +58,7 @@ class Interfaces:
         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Text('Ваш файл:', size=(20, 1))],
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_translate_file(self):
@@ -61,6 +67,7 @@ class Interfaces:
         [sg.InputText(key='GENERAL_PATH', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
         [sg.Text('Ваш файл:', size=(20, 1))],
         [sg.InputText(key='ADDITIONAL_FILE', size=(55, 1)), sg.FileBrowse(size=(10, 1), button_text='Обзор'), ],
+        [sg.ProgressBar(max_value=100, orientation='h', size=(45, 15), key='progressbar')],
         [sg.Button(button_text='Назад'), sg.Button(button_text='Выполнить')]]
 
     def get_transfer_directory(self):
@@ -100,6 +107,6 @@ class Interfaces:
                 [sg.Button(button_text='Назад'), sg.Button(button_text='Сохранить'), sg.Button(button_text='Далее')]]
 
     def get_default(self):
-        return [[sg.Text('Привет, выбери желаемый режим')],
+        return [[sg.Text('Привет, выбери желаемый режим'), sg.Text('||Новая тема'), sg.Combo(values=sg.theme_list(), size=(20, 1), key='NEW_THEME', enable_events=True)],
         [sg.Button(button_text=COMMANDS.INTERFACE_TRANSLATOR_PATH)],
         [sg.Combo(values=list_commands, key='MODE', size=(85, 1), enable_events=True)]]

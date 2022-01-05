@@ -75,7 +75,7 @@ def __translator(interface, helper=True):
 
 work_with_interface = WorkWIthInterface()
 
-work_with_interface.get_theme()#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку для переводчиков и progressbar
+work_with_interface.get_theme('DarkAmber')#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку для переводчиков и progressbar
 interface = work_with_interface.get_default_interface()
 
 while True:
@@ -87,6 +87,11 @@ while True:
         elif event == 'MODE':
             interface.Close()
             interface = work_with_interface.change_interfase(values['MODE'])
+        elif event == 'NEW_THEME':
+            theme = values['NEW_THEME']
+            work_with_interface.get_theme(theme)
+            interface.Close()
+            interface = work_with_interface.get_default_interface()
         elif event == 'Назад':
             interface.Close()
             interface = work_with_interface.get_default_interface()
@@ -106,20 +111,24 @@ while True:
                 general_file_path = values['GENERAL_PATH']
                 additional_file_path = values['ADDITIONAL_FILE']
                 other_path = values['OTHER_FILE']
+                # mode = values['MODE']
+                # general_file_path = '/home/user/Документы/lta/KR_Combined_Syndicates_of_America_l_english.yml'
+                # additional_file_path = '/home/user/Документы/lta/KR_Combined_Syndicates_of_America_l_russian.yml'
+                # other_path = values['OTHER_FILE']
             except:
                 pass
             if mode == COMMANDS.ADDITIONAL_ENGLISH:
                 __check_input_two_path(general_file_path, additional_file_path)
                 merger = AddFileInEnglish()
-                merger.execute_operation(general_file_path, additional_file_path)
+                merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.ADDITIONAL_RUSSIAN:
                 __check_input_two_path(general_file_path, additional_file_path)
                 merger = AddFileInRussian()
-                merger.execute_operation(general_file_path, additional_file_path)
+                merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.TRANSLATE_FILE:
                 __check_input_two_path(general_file_path, additional_file_path)
                 merger = TranslateFile()
-                merger.execute_operation(general_file_path, additional_file_path)
+                merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:
                 __check_input_one_path(general_file_path)
                 merger = GeneralWorkWithDirectory(TranslateFile)
@@ -127,7 +136,7 @@ while True:
             elif mode == COMMANDS.TRANSFER_FILE:
                 __check_input_two_path(general_file_path, additional_file_path)
                 merger = TransferFile()
-                merger.execute_operation(general_file_path, additional_file_path)
+                merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.ALL_TRANSFER_DIRECTORY:
                 __check_input_one_path(general_file_path)
                 merger = GeneralWorkWithDirectory(TransferFile)
@@ -135,7 +144,7 @@ while True:
             elif mode == COMMANDS.STREAMLINE_FILE:
                 __check_input_two_path(general_file_path, additional_file_path)
                 merger = StreamlineFile()
-                merger.execute_operation(general_file_path, additional_file_path)
+                merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.STREAMLINE_DIRECTORY:
                 __check_input_one_path(general_file_path)
                 merger = GeneralWorkWithDirectory(StreamlineFile)
@@ -145,10 +154,11 @@ while True:
                 merger = SearchUpdateString()
                 merger.execute_operation(general_path_new_v=general_file_path,
                                          add_path=additional_file_path,
-                                         general_path_old_v=other_path)
+                                         general_path_old_v=other_path,
+                                         progressbar=interface['progressbar'])
             elif mode == COMMANDS.SEARCH_UNTRANS_STRING_FILE:
                 merger = SearchUntransString()
-                merger.execute_operation(general_file_path)
+                merger.execute_operation(general_file_path, interface['progressbar'])
 
     except NotADirectoryError:
         print('Указанный путь не является папкой, укажите путь до папки')

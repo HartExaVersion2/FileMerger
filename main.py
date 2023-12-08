@@ -1,5 +1,6 @@
-from common.constant import COMMANDS, FOCUS
+from common.constant import COMMANDS, FOCUS, OTHER
 from common.errors import *
+from common.settings import Settings
 from merger.add_file.add_file_in_english import AddFileInEnglish
 from merger.add_file.add_file_in_russian import AddFileInRussian
 from merger.translate.translate_file import TranslateFile
@@ -10,6 +11,8 @@ from merger.search_untrans_string.search_untrans_string import SearchUntransStri
 from merger.search_update_string.search_update_string import SearchUpdateString
 from visual_interfaces.work_with_interface import WorkWIthInterface
 from translator_interface.translator_helper.helper_with_translate_focuses import TranslatorHealper
+
+import webbrowser
 
 def __check_input_one_path(general_path):
     if not general_path:
@@ -33,18 +36,18 @@ def __check_input_three_path(general_path, add_path, other_path):
 def __translator(interface, helper=True):
     interface.Close()
     if helper:
-        interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HELPER,
+        interface = work_with_interface.change_interface(mode=COMMANDS.WHITH_HELPER,
                                                          extra_options=['тут будет оригинальное название фокуса',
                                                                         'тут будет оригинальное описание фокуса',
                                                                         'тут будет переведённое название фокуса',
                                                                         'тут будет переведённое описание фокуса'])
-        translator_healper = TranslatorHealper(path_general_file=general_file_path, add_path=additional_file_path)#path_general_file=general_file_path, add_path=additional_file_path #ToDo не забыть убрать
+        translator_healper = TranslatorHealper(path_general_file=general_file_path, add_path=additional_file_path, settings=settings)#path_general_file=general_file_path, add_path=additional_file_path #ToDo не забыть убрать
     else:
-        interface = work_with_interface.change_interfase(mode=COMMANDS.WHITHOUT_HELPER,
+        interface = work_with_interface.change_interface(mode=COMMANDS.WHITHOUT_HELPER,
                                                          extra_options=['тут будет оригинальное название фокуса',
                                                                         'тут будет оригинальное описание фокуса',])
         translator_healper = TranslatorHealper(path_general_file=general_file_path, add_path=additional_file_path,
-                                               translate=False)
+                                               translate=False, settings=settings)
     while True:
         event, values = interface.read()
         if event in (None, 'Exit', 'Cancel', 'Назад'):
@@ -57,13 +60,13 @@ def __translator(interface, helper=True):
             next_focus = translator_healper.further(values['title'], values['desc'])
             interface.Close()
             if helper:
-                interface = work_with_interface.change_interfase(mode=COMMANDS.WHITH_HELPER,
+                interface = work_with_interface.change_interface(mode=COMMANDS.WHITH_HELPER,
                                                                  extra_options=[next_focus[FOCUS.TITLE],
                                                                                 next_focus[FOCUS.DESC],
                                                                                 next_focus[FOCUS.TRANSLATE_TITLE],
                                                                                 next_focus[FOCUS.TRANSLATE_DESC]])
             else:
-                interface = work_with_interface.change_interfase(mode=COMMANDS.WHITHOUT_HELPER,
+                interface = work_with_interface.change_interface(mode=COMMANDS.WHITHOUT_HELPER,
                                                                  extra_options=[next_focus[FOCUS.TITLE],
                                                                                 next_focus[FOCUS.DESC],
                                                                                 next_focus[FOCUS.TRANSLATE_TITLE],
@@ -73,9 +76,10 @@ def __translator(interface, helper=True):
     interface = work_with_interface.get_default_interface()
     return interface
 
-work_with_interface = WorkWIthInterface()
+settings = Settings()
+work_with_interface = WorkWIthInterface(settings)
 
-work_with_interface.get_theme('DarkAmber')#ToDo можно сделать это настройкой, не забыть прокинуть логгер, создать вкладку для переводчиков и progressbar
+work_with_interface.get_theme(settings.theme)#ToDo не забыть прокинуть логгер, создать вкладку для переводчиков и progressbar
 interface = work_with_interface.get_default_interface()
 
 while True:
@@ -84,9 +88,14 @@ while True:
         print(event, values) #debug
         if event in (None, 'Exit', 'Cancel'):
             break
+        elif event == 'help':
+            webbrowser.open(OTHER.LINK_HELP_DOCUMENTATION, new=2)
+        elif event == 'settings':
+            interface.Close()
+            interface = work_with_interface.change_interface(COMMANDS.SETTINGS)
         elif event == 'MODE':
             interface.Close()
-            interface = work_with_interface.change_interfase(values['MODE'])
+            interface = work_with_interface.change_interface(values['MODE'])
         elif event == 'NEW_THEME':
             theme = values['NEW_THEME']
             work_with_interface.get_theme(theme)
@@ -95,9 +104,19 @@ while True:
         elif event == 'Назад':
             interface.Close()
             interface = work_with_interface.get_default_interface()
+        elif event == 'NEW_TRANSLATOR':
+            settings.translator = values['NEW_TRANSLATOR']
+        elif event == 'NEW_GAME':
+            settings.game = values['NEW_GAME']
+        elif event == 'LANG_FROM':
+            settings.lang_from = values['LANG_FROM']
+        elif event == 'LANG_TO':
+            settings.lang_to = values['LANG_TO']
+        elif event == 'Добавить':
+            settings.api_key = values['API_KEY']
         elif event == COMMANDS.INTERFACE_TRANSLATOR_PATH:
             interface.Close()
-            interface = work_with_interface.change_interfase(COMMANDS.INTERFACE_TRANSLATOR_PATH)
+            interface = work_with_interface.change_interface(COMMANDS.INTERFACE_TRANSLATOR_PATH)
         elif event == COMMANDS.BEGIN_TRANSLATE:
             general_file_path = values['GENERAL_PATH']
             additional_file_path = values['ADDITIONAL_FILE']
@@ -123,11 +142,11 @@ while True:
                 merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.ADDITIONAL_RUSSIAN:
                 __check_input_two_path(general_file_path, additional_file_path)
-                merger = AddFileInRussian()
+                merger = AddFileInRussian(settings)
                 merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.TRANSLATE_FILE:
                 __check_input_two_path(general_file_path, additional_file_path)
-                merger = TranslateFile()
+                merger = TranslateFile(settings)
                 merger.execute_operation(general_file_path, additional_file_path, interface['progressbar'])
             elif mode == COMMANDS.ALL_TRANSLATE_DIRECTRY:
                 __check_input_one_path(general_file_path)

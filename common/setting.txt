@@ -1,0 +1,7 @@
+theme=DarkAmber
+lang_to=ru
+lang_from=auto
+screen_resolution=default
+game=hoi4
+translator=GoogleTranslator
+api_key=None

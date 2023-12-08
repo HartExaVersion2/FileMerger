@@ -7,8 +7,14 @@ import time
 
 class TranslateFile(GeneralOperations):
 
-    def __init__(self):
-        self.translator = TextTranslator()
+    def __init__(self, settings):
+        self.settings = settings
+        self.translator = TextTranslator(translator_name=self.settings.translator,
+                                         lang_from=self.settings.lang_from,
+                                         lang_to=self.settings.lang_to)
+
+        self.__start_progressbar = 0
+        self.__step_progressbar = 1
 
     def __update_progressbar(self, progressbar, start_progressbar, step_progressbar):
         if progressbar is not None:
@@ -28,6 +34,17 @@ class TranslateFile(GeneralOperations):
         else:
             return False
 
+    def __translate_text(self, list_focuses_for_translate, list_headers, additional_file):
+        focuses_in_russian = self.translator.transleate_text(text=' '.join(list_focuses_for_translate))
+        list_focuses_in_russian = focuses_in_russian.split(' !!%!!')
+        for number_focus in range(len(list_headers)):
+            header = list_headers[number_focus]
+            text_focus = list_focuses_in_russian[number_focus].rstrip().rstrip('\n').lstrip()
+            additional_file.write(header + ':0 "' + text_focus + '"' + '\n')
+            #start_progressbar = self.__update_progressbar(self.__progressbar, start_progressbar, self.__step_progressbar)
+            if 'desc' in list_headers[number_focus]:
+                additional_file.write('\n')
+
     @decorator_for_output_errors()
     def execute_operation(self, path_general_file, add_path, progressbar=None):
         list_focuses_for_translate = []
@@ -40,42 +57,34 @@ class TranslateFile(GeneralOperations):
 
         count_focuses = len(list_english_line)
 
-        start_progressbar = 0
-        step_progressbar = 100 / len(list_english_line)
+        self.__start_progressbar = 0
+        self.__step_progressbar = 100 / len(list_english_line)
 
         for line in list_english_line:
             if 'l_english' in line:
                 additional_file.write('l_russian:\n')
             elif '#' in line:
                 additional_file.write(line)
-            elif '\n' in line:
-                additional_file.write('\n')
-            elif line == ' \n':
-                additional_file.write(' \n')
-            elif line == '  \n':
-                additional_file.write('  \n')
+            elif '\n' in line.strip():
+                additional_file.write(line)
             elif 'Focus Tree' in dict_english_line[line]:
                 additional_file.write(line+dict_english_line[line])
             else:
                 try:
                     # self.__check_connection() #ToDo пофиксить
-                    text = dict_english_line[line].replace(':0 "', '').replace(':0"', '').replace('"', '')+' ' + '%'
+                    text = dict_english_line[line].replace(':0 "', '').replace(':0"', '').replace('"', '') + ' !!%!! '
                     if self.__check_count_symbol(list_focuses_for_translate, text) or count == count_focuses-1:
-                        focuses_in_russian = self.translator.transleate_text(text=''.join(list_focuses_for_translate))
-                        list_focuses_in_russian = focuses_in_russian.split('%')
-                        for number_focus in range(len(list_headers)):
-                            header = list_headers[number_focus]
-                            text_focus = list_focuses_in_russian[number_focus].rstrip().rstrip('\n').lstrip()
-                            additional_file.write(header + ':0 "' + text_focus + '"' + '\n')
-                            start_progressbar = self.__update_progressbar(progressbar, start_progressbar, step_progressbar)
-                            if 'desc' in list_headers[number_focus]:
-                                additional_file.write('\n')
-                    else:
-                        list_focuses_for_translate.append(text)
-                        list_headers.append(line)
-                        count += 1
+                        self.__translate_text(list_focuses_for_translate, list_headers, additional_file)
+                        list_focuses_for_translate.clear()
+                        list_headers.clear()
+
+                    list_focuses_for_translate.append(text)
+                    list_headers.append(line)
+                    count += 1
                 except:
                     additional_file.write(line)
+        if list_focuses_for_translate:
+            self.__translate_text(list_focuses_for_translate, list_headers, additional_file)
         additional_file.close()
         print('Файл' + ' ' + add_path.split('/')[-1] + ' Переведён')
         self.encod_utf8_bom(add_path)

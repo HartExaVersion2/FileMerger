@@ -6,10 +6,13 @@ from common.decorator_for_output_errors import decorator_for_output_errors
 
 class TranslatorHealperOperations(GeneralOperations):
 
-    def __init__(self, path_general_file, add_path, translate=True):
+    def __init__(self, path_general_file, add_path, settings, translate=True):
         self.translate = translate
+        self.settings = settings
         if translate:
-            self.translator = TextTranslator()
+            self.translator = TextTranslator(translator_name=self.settings.translator,
+                                             lang_from=self.settings.lang_from,
+                                             lang_to=self.settings.lang_to)
         self.preprocessor = Preprocessor(path_general_file, add_path)
 
         self.add_path = add_path

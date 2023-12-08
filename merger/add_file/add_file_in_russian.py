@@ -6,8 +6,11 @@ from common.decorator_for_output_errors import decorator_for_output_errors
 
 class AddFileInRussian(GeneralOperations):
 
-    def __init__(self):
-        self.translator = TextTranslator()
+    def __init__(self, settings):
+        self.settings = settings
+        self.translator = TextTranslator(translator_name=self.settings.translator,
+                                         lang_from=self.settings.lang_from,
+                                         lang_to=self.settings.lang_to)
 
     @decorator_for_output_errors()
     def __update_progressbar(self, progressbar, start_progressbar, step_progressbar):

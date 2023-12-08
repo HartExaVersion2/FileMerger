@@ -12,10 +12,14 @@ class COMMANDS:
     SEARCH_UNTRANS_STRING_DIRECTORY = 'Найти не переведённые строки в папке'
     SEARCH_UPDATE_STRING_FILE = 'Найти изменения в файле'
     SEARCH_UPDATE_STRING_DIRECTORY = 'Найти изменения в папке'
+
+
     INTERFACE_TRANSLATOR_PATH = 'Включить интерфейс переводчика'
     BEGIN_TRANSLATE = 'Начать перевод'
     WHITH_HELPER = 'True'
     WHITHOUT_HELPER = 'False'
+
+    SETTINGS = 'Настройки'
 
 
 class FOCUS:
@@ -24,3 +28,14 @@ class FOCUS:
     DESC = 'desc'
     TRANSLATE_TITLE = 'trans_tirle'
     TRANSLATE_DESC = 'trans_desc'
+
+
+class TRANSLATOR_NAME:
+
+    GOOGLE = 'GoogleTranslator'
+    YANDEX = 'YandexTranslator'
+    DEEPL = 'DeepLTranslator'
+
+
+class OTHER:
+    LINK_HELP_DOCUMENTATION = 'https://vk.com/@-205180548-funkcional-i-gaid-po-rabote-s-file-merger'

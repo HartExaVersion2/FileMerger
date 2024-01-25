@@ -22,11 +22,13 @@ class SearchUpdateString(GeneralOperations):
         start_progressbar = 0
         step_progressbar = 100 / len(new_v_dict.keys())
 
+        new_v_keys = new_v_dict.keys()
         for old_v_key in old_v_dict:
             if 'l_english' in old_v_key or 'l_russian' in old_v_key:
                 continue
-            if old_v_dict[old_v_key] != new_v_dict[old_v_key]:
-                incumbent_string.append(old_v_key)
+            if old_v_key in new_v_keys:
+                if old_v_dict[old_v_key] != new_v_dict[old_v_key]:
+                    incumbent_string.append(old_v_key)
 
         if incumbent_string:
             add_file = self.file_for_write(add_path)
